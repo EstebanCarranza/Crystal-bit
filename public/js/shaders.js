@@ -16,7 +16,7 @@ function setupShaders() {
 
 
 
-    createCubeWithShaderMaterial(0);
+    //createCubeWithShaderMaterial(0);
 }
 function createCubeWithShaderMaterial(shaderID) {
     var boxGeometry = new THREE.BoxGeometry(30,30,30);

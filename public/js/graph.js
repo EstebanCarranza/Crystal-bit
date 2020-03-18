@@ -419,6 +419,8 @@ $(document).ready(function () {
     if (console_out) console.log("crear_pajaro() - OK");
 
     crear_varios_pajaros();
+
+    crear_auto();
     render();
 });
 

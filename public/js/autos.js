@@ -39,7 +39,7 @@ carModelPath[1] = "auto_low_poly_p2.obj";
 carFolderPath[0] = "media/assets/cars/lowpoly/";
 carFolderPath[1] = "media/assets/cars/lowpoly/";
 
-
+function crear_auto(){
 for(var i =0; i < 2; i++)
 autos[i] = new auto_model(
     "media/assets/cars/lowpoly/", carModelPath[i],carMaterial[i], 
@@ -51,5 +51,6 @@ autos[i] = new auto_model(
         },
         i
     );
+}
 
 if (mode_debug) debugger;

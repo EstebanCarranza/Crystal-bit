@@ -1,4 +1,5 @@
-
+var urlWebService = 'app/Http/Controllers/wsPuntuaciones.php';
+//var urlWebService = 'public/wsPuntuaciones.php';
 function agregarPartida(_gamename_01, _gamepoints_01, _gamename_02, _gamepoints_02)
 {
     var dataToSend =
@@ -11,15 +12,23 @@ function agregarPartida(_gamename_01, _gamepoints_01, _gamename_02, _gamepoints_
     };
 
     $.ajax({
-        url: '../public/wsPuntuaciones.php',
+        url: urlWebService, 
         async: 'true',
         type: 'POST',
         data: dataToSend,
         dataType: 'json',
 
         success: function (respuesta) {
-            //debugger;
-            //alert(respuesta);
+            var respuesta = JSON.parse( respuesta );
+            if(respuesta != undefined){
+                if(respuesta.code == '200'){
+                    console.log(respuesta.code);
+                }else{
+                    console.log('Error: ' + respuesta.code + ', ' + respuesta.msg);
+                }
+            }else{
+                console.log('No se pudo convertir el json');
+            }
         },
         error: function (x, h, r) {
             alert("Error: " + x + h + r);
@@ -37,27 +46,23 @@ function obtenerPartida(_idPartida)
     };
 
     $.ajax({
-        url: '../public/wsPuntuaciones.php',
+        url: urlWebService,
         async: 'true',
         type: 'POST',
         data: dataToSend,
         dataType: 'json',
 
         success: function (respuesta) {
-            //alert(respuesta);
-
-            //var prod = [];
-            //debugger;
-           
-            /*
-            for (var i = 0; i < respuesta.length; i++) {
-                var product = new Product(respuesta[i].p_name, respuesta[i].p_detail, respuesta[i].p_price);
-                $('.product-list').append(product.getHtml());
+            var respuesta = JSON.parse( respuesta );
+            if(respuesta != undefined){
+                if(respuesta.code == '200'){
+                    console.log(respuesta.code);
+                }else{
+                    console.log('Error: ' + respuesta.code + ', ' + respuesta.msg);
+                }
+            }else{
+                console.log('No se pudo convertir el json');
             }
-            */
-
-            //debugger;
-
         },
         error: function (x, h, r) {
             alert("Error: " + x + h + r);
@@ -75,46 +80,41 @@ function obtenerPuntuaciones(_limit1, _limit2, _idTab)
         limit2: _limit2,
         idTab: _idTab
     };
-
     $.ajax({
-        url: '../public/wsPuntuaciones.php',
+        
+        url: urlWebService,
         async: 'true',
         type: 'POST',
         data: dataToSend,
-        dataType: 'json',
+        /*dataType: 'json',*/
 
         success: function (respuesta) {
-            //alert(respuesta);
-
-            //var prod = [];
-            //debugger;
-            for (var i = 0; i < respuesta.length; i++) {
-                if(respuesta[i].punPlayer1 > respuesta[i].punPlayer2)
-                {
-                    $(respuesta[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta[i].nomPlayer1 + "</td><td>" + respuesta[i].punPlayer1 + "</td></tr>");
-                    $(respuesta[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta[i].nomPlayer2 + "</td><td>" + respuesta[i].punPlayer2 + "</td></tr>");
+            var respuesta = JSON.parse( respuesta );
+            if(respuesta != undefined){
+                if(respuesta.code == '200'){
+                    for (var i = 0; i < respuesta.data.length; i++) {
+                        if(respuesta.data[i].punPlayer1 > respuesta.data[i].punPlayer2)
+                        {
+                            $(respuesta.data[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta.data[i].nomPlayer1 + "</td><td>" + respuesta.data[i].punPlayer1 + "</td></tr>");
+                            $(respuesta.data[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta.data[i].nomPlayer2 + "</td><td>" + respuesta.data[i].punPlayer2 + "</td></tr>");
+                        }
+                        else
+                        {
+                            $(respuesta.data[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta.data[i].nomPlayer2 + "</td><td>" + respuesta.data[i].punPlayer2 + "</td></tr>");
+                            $(respuesta.data[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta.data[i].nomPlayer1 + "</td><td>" + respuesta.data[i].punPlayer1 + "</td></tr>");
+                        }
+                        
+                    }
+                }else{
+                    console.log('Error: ' + respuesta.code + ', ' + respuesta.msg);
                 }
-                else
-                {
-                    $(respuesta[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta[i].nomPlayer2 + "</td><td>" + respuesta[i].punPlayer2 + "</td></tr>");
-                    $(respuesta[i]._idTab).append("<tr class='PUN_row'><td>" + respuesta[i].nomPlayer1 + "</td><td>" + respuesta[i].punPlayer1 + "</td></tr>");
-                }
-                
+            }else{
+                console.log('No se pudo convertir el json');
             }
-            /*
-            for (var i = 0; i < respuesta.length; i++) {
-                var product = new Product(respuesta[i].p_name, respuesta[i].p_detail, respuesta[i].p_price);
-                $('.product-list').append(product.getHtml());
-            }
-            */
-
-
-            //debugger;
 
         },
         error: function (x, h, r) {
             alert("Error: " + x + h + r);
-
         }
 
     });
